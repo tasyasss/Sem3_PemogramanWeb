@@ -16,26 +16,26 @@
         }
     </style>
 
-<script type="text/javascript" src="jquery-3.7.1.min.js"></script>
-<script>
-    $(document).ready(function(){
-        $("#paragraf").click(function(){
-            $(this).css("color", "White");
-        });
+    <script type="text/javascript" src="JQuery.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#paragraf").click(function(){
+                $("#paragraf").css("color", "White");
+            });
 
-        $("#paragraf").mouseover(function(){
-            $(this).css("background-color", "silver");
-        });
+            $("#paragraf").mouseover(function(){
+                $("#paragraf").css("background-color", "silver");
+            });
 
-        $("#paragraf").mouseout(function(){
-            $(this).css("background-color", "blue");
-        });
+            $("#paragraf").mouseout(function(){
+                $("#paragraf").css("background-color", "blue");
+            });
 
-        $("#paragraf").dblclick(function(){
-            $(this).css("border", "solid 3px black");
+            $("#paragraf").dblclick(function(){
+                $("#paragraf").css("border", "solid 3px black");
+            });
         });
-    });
-</script>
+    </script>
 </head>
 <body>
     <p id="paragraf">Praktikum 6 Pemograman Website Materi jQuery</p>
