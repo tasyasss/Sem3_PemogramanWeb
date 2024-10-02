@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>prak7</title>
+
+    <link rel="stylesheet" href="styleAnimate.css" />
+    <script type="text/javascript" src="JQuery.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("button").click(function () {
+            // $("div").animate({left: 300});
+            $(".box")
+                .animate({ width: "300px" })
+                .animate({ height: "300px" })
+                .animate({ marginLeft: "150px" })
+                .animate({ borderWidth: "5px" })
+                .animate({ opacity: ".5" });
+        });
+      });
+    </script>
+</head>
+<body>
+    <button type="button">Start Animate</button>
+    <div class="box"></div>
+</body>
+</html>
