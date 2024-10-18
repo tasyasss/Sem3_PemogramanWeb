@@ -1,5 +1,5 @@
 <?php
-if (isset($_FILES['file'])) {
+if (isset($_FILES['files'])) {
     $errors = array();  // Menyimpan semua error
     $allowed_extensions = array("jpg", "jpeg", "png", "heic");  // Ekstensi yang diizinkan
     $max_file_size = 2 * 1024 * 1024;  // Ukuran maksimal file (2 MB)
