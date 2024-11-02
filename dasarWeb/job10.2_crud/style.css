@@ -101,3 +101,23 @@ button[type='submit'].hover,
 .btn-kembali {
     background-color: #e74c3c;
 }
+
+button[type='radio'],
+.btn-simpan {
+    text-decoration: none;
+    background-color: #4CAF50;
+    color: white;
+    padding: 11px 21px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* button.hover,
+.btn-simpan.hover {
+    background-color: #45a049;
+}
+
+.btn-simpan {
+    background-color: #53e73c;
+} */
