@@ -46,7 +46,7 @@
         } else {
             ?>
             <tr>
-                <td colspan="7" class="text-center">Tidak ada data ditemukan</td>
+                <td colspan="6" class="text-center">Tidak ada data ditemukan</td>
             </tr>
         <?php
         }
@@ -57,5 +57,45 @@
 <script type="text/javascript">
     $(document).ready(function() {
         $('#example').DataTable();
+    });
+
+    function reset() {
+        document.getElementById("err_nama").innerHTML = "";
+        document.getElementById("err_jenis_kelamin").innerHTML = "";
+        document.getElementById("err_alamat").innerHTML = "";
+        document.getElementById("err_no_telp").innerHTML = "";
+    }
+
+    $(document).on('click', '.edit_data', function() {
+        $('html,body').animate({
+            scrollTop: 0
+        }, 'slow');
+        var id = $(this).attr('id');
+        $.ajax({
+            type: 'POST',
+            url: 'get_data.php',
+            data: {
+                id: id
+            },
+            dataType: 'json',
+            success: function(response) {
+                reset();
+                $('html, body').animate({
+                    scrollTop: 30
+                }, 'slow');
+                document.getElementById("id").value = response.id;
+                document.getElementById("nama").value = response.id;
+                document.getElementById("alamat").value = response.alamat;
+                document.getElementById("no_telp").value = response.no_telp;
+                if (response.jenis_kelamin == "L") {
+                    document.getElementById("jenkel1").checked = true;
+                } else {
+                    document.getElementById("jenkel2").checked = true;
+                }
+            },
+            error: function(response) {
+                console.log(response.responseText);
+            }
+        });
     });
 </script>
