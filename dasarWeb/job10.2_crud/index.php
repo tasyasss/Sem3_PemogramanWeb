@@ -1,3 +1,7 @@
+<?php
+include 'auth.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,120 +10,93 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Data Anggota</title>
-    <!-- <link rel="stylesheet" href="style.css"> -->
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <!-- Csrf Token -->
+    <meta name="csrf-token" content="<?= $_SESSION['csrf_token'] ?>">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+        integrity="sha384fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+
+    <!-- JQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+    <!-- Datatable -->
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 
 <body>
-    <div class="container mt-4">
-        <h2>Data Anggota</h2>
-        <a href="create.php" class="btn btn-success mt-2">Tambah Anggota</a>
-        <br><br>
-        <?php
-        include('koneksi.php');
+    <nav class="navbar navbar-dark bg-primary">
+        <a href="index.php" class="navbar-brand" style="color: #fff;">
+            CRUD Dengan Ajax
+        </a>
+    </nav>
 
-        $query = "SELECT * FROM anggota order by id desc";
-        $result = mysqli_query($koneksi, $query);
-        ?>
+    <div class="container">
+        <h2 align="center" style="margin: 30px;">Data Anggota</h2>
 
-        <table class="table">
-            <thead class="thead-light">
-                <tr>
-                    <th>No</th>
-                    <th>Nama</th>
-                    <th>Jenis Kelamin</th>
-                    <th>Alamat</th>
-                    <th>No. Telp</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php 
-                $no = 1;
-                while ($row = mysqli_fetch_array($result)) {
-                    $kelamin = ($row["jenis_kelamin"] === 'L') ? 'Laki-laki' : 'Perempuan';
-                ?>
-                <tr>
-                    <td><?=$no++?></td>
-                    <td><?=$row["nama"]?></td>
-                    <td><?=$kelamin?></td>
-                    <td><?=$row["alamat"]?></td>
-                    <td><?=$row["no_telp"]?></td>
-                    <td>
-                        <a href="edit.php?id=<?=$row["id"]?>" class="btn btn-primary">Edit</a>
-                        <a href="#" class="btn btn-danger" data-toggle='modal' data-target='#hapusModal<?=$row["id"]?>'>Hapus</a>
-                    </td>
-                </tr>
-                <div class="modal fade" id="hapusModal<?= $row["id"]?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Konfirmasi Hapus</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                               <?= "Apakah Anda yakin ingin menghapus data dengan nama " . $row["nama"] . "?" ?> 
-                            </div>
-                            <div class="modal-footer">
-                                <a class="btn btn-danger" href="proses.php?aksi=hapus&id=<?= $row["id"] ?>">Hapus</a>
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                            </div>
-                        </div>
+        <form method="post" class="form-data" id="form-data">
+            <div class="row">
+                <div class="col-sm-9">
+                    <div class="form-group">
+                        <label>Nama</label>
+                        <input type="hidden" name="id" id="id">
+                        <input type="text" name="nama" id="nama" class="form-control" required="true">
                     </div>
                 </div>
-                <?php
-                }
-                ?>
-            </tbody>
-        </table>
 
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label>Jenis Kelamin</label><br>
+                        <input type="radio" name="jenis_kelamin" id="jenkel1" value="L" required="true"> Laki-laki
+                        <input type="radio" name="jenis_kelamin" id="jenkel2" value="P"> Perempuan
+                    </div>
+                </div>
+            </div>
 
+            <div class="form-group">
+                <label>Alamat</label>
+                <textarea name="alamat" id="alamat" class="form-control" required="true"></textarea>
+            </div>
 
+            <div class="form-group">
+                <label>No Telepon</label>
+                <input type="number" name="no_telp" id="no_telp" class="form-control" required="true">
+            </div>
 
+            <div class="form-group">
+                <button type="button" name="simpan" id="simpan" class="btn btn-primary">
+                    <i class="fa fa-save"></i> Simpan
+                </button>
+            </div>
+        </form>
+        <hr>
 
-        <!-- if (mysqli_num_rows($result) > 0) {
-            $no = 1;
-            echo "<table>";
-            echo "<tr>
-                <th>No</th>
-                <th>Nama</th>
-                <th>JenisKelamin</th>
-                <th>Alamat</th>
-                <th>No. Telp</th>
-                <th>Aksi</th>
-            </tr>";
-            while ($row = mysqli_fetch_array($result)) {
-                $kelamin = ($row["jenis_kelamin"] === 'L') ? 'Laki-laki' : 'Perempuan';
-                echo "<tr>
-                    <td>" . $no++ . "</td>
-                    <td>" . $row["nama"] . "</td>
-                    <td>" . $kelamin . "</td>
-                    <td>" . $row["alamat"] . "</td>
-                    <td>" . $row["no_telp"] . "</td>
-                    <td><a href='edit.php?id=" . $row["id"] . "'>Edit</a> | 
-                    <a href='#' onclick='konfirmasiHapus(" . $row["id"] . ", \"" . $row["nama"] . "\")'>Hapus</a></td>
-                </tr>";
-            }
-            echo "</table>";
-        } else {
-            echo "Tidak ada data.";
-        }
-        mysqli_close($koneksi);
-        ?> -->
+        <div class="data"></div>
     </div>
-    <script>
-        function konfirmasiHapus(id, nama) {
-            var konfirmasi = confirm("Apakah Anda yakin ingin menghapus data dengan Nama " + nama + "?");
-            if (konfirmasi) {
-                window.location.href = "proses.php?aksi=hapus&id=" + id;
-            }
-        }
+
+    <div class="text-center">@ <?php echo date('Y'); ?> Copyright;
+        <a href="https://google.com/">Desain dan Pemograman Web</a>
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            // mengirimkan token keamanan
+            $.ajaxSetup({
+                headers: {
+                    'Csrf-Token': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $('.data').load("data.php");
+        });
     </script>
 </body>
 
