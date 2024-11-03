@@ -167,7 +167,7 @@ include 'auth.php';
                         scrollTop: 30
                     }, 'slow');
                     document.getElementById("id").value = response.id;
-                    document.getElementById("nama").value = response.id;
+                    document.getElementById("nama").value = response.nama;
                     document.getElementById("alamat").value = response.alamat;
                     document.getElementById("no_telp").value = response.no_telp;
                     if (response.jenis_kelamin == "L") {
