@@ -2,9 +2,9 @@
 if (session_status() === PHP_SESSION_NONE)
     session_start();
 
-include "function/pesan_kilat.php";
+include "fungsi/pesan_kilat.php";
 include "config/koneksi.php";
-include "function/anti_injection.php";
+include "fungsi/anti_injection.php";
 
 $username = anti_injection($koneksi, $_POST['username']);
 

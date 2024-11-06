@@ -5,7 +5,7 @@ if (session_status() == PHP_SESSION_NONE)
 
 if (!empty($_SESSION['level'])) {
     require 'config/koneksi.php';
-    require 'function/pesan_kilat.php';
+    require 'fungsi/pesan_kilat.php';
     
     include 'admin/template/header.php';
     if (!empty($_GET['page'])) {
