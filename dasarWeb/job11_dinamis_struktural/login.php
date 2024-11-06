@@ -2,10 +2,10 @@
 if (session_status() === PHP_SESSION_NONE)
     session_start();
 
-include "fungsi/pesan_kilat.php";
+include "function/pesan_kilat.php";
 ?>
-<!doctype html>
-<html lang="en" data-bs-theme="auto">
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
     <script src="assets/js/color-modes.js"></script>

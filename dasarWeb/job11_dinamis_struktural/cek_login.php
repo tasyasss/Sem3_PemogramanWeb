@@ -2,12 +2,13 @@
 if (session_status() === PHP_SESSION_NONE)
     session_start();
 
+include "function/pesan_kilat.php";
 include "config/koneksi.php";
-include "fungsi/pesan_kilat.php";
-include "fungsi/anti_injection.php";
+include "function/anti_injection.php";
 
-$username = antiinjection($koneksi, $_POST['username']);
-$password = antiinjection($koneksi, $_POST['password']);
+$username = anti_injection($koneksi, $_POST['username']);
+
+$password = anti_injection($koneksi, $_POST['password']);
 
 $query = "SELECT username, level, salt, password as hashed_password FROM user WHERE username = '$username'";
 $result = mysqli_query($koneksi, $query);
@@ -24,11 +25,10 @@ if ($salt !== null && $hashed_password !== null) {
         $_SESSION['level'] = $row['level'];
         header("Location: index.php");
     } else {
-        pesan('danger', 'Login gagal. Password Anda Salah.');
+        pesan('danger', 'Password salah');
         header("Location: login.php");
     }
 } else {
-    pesan('warning', 'Username tidak ditemukan.');
+    pesan('warning', 'Username tidak ditemukan');
     header("Location: login.php");
 }
-?>
