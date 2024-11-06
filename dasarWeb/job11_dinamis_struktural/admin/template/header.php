@@ -12,10 +12,7 @@
     <title>Aplikasi Kantor Siapa</title>
     <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
     <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/dashboard/">
-
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
-
     <link href="assets/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
@@ -74,7 +71,6 @@
         .btn-bd-primary {
             --bd-violet-bg: #712cf9;
             --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
-
             --bs-btn-font-weight: 600;
             --bs-btn-color: var(--bs-white);
             --bs-btn-bg: var(--bd-violet-bg);
