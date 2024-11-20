@@ -27,6 +27,7 @@ if ($session->get('is_login') !== true) {
   <link rel="stylesheet" href="adminlte/dist/css/adminlte.min.css">
   <!-- jQuery -->
   <script src="adminlte/plugins/jquery/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/jquery.validation/1.19.5/jquery.validate.min.js"></script>
 </head>
 
 <body class="hold-transition sidebar-mini">
