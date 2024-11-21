@@ -34,14 +34,17 @@ if ($act == 'get') {
     $id = (isset($_GET['id']) && ctype_digit($_GET['id'])) ? $_GET['id'] : 0;
     $buku = new BukuModel();
     $data = $buku->getDataById($id);
+    if (empty($data['deskripsi'])) {
+        $data['deskripsi'] = 'Belum ada deskripsi';
+    }
     echo json_encode($data);
 }
 if ($act == 'save') {
     $data = [
-        'kategori_id' => antiSqlInjection($_POST['kategori_id']),
+        'kategori_id' => (int)antiSqlInjection($_POST['kategori_id']),
         'buku_kode' => antiSqlInjection($_POST['buku_kode']),
         'buku_nama' => antiSqlInjection($_POST['buku_nama']),
-        'jumlah' => antiSqlInjection($_POST['jumlah']),
+        'jumlah' => (int)antiSqlInjection($_POST['jumlah']),
         'deskripsi' => antiSqlInjection($_POST['deskripsi']),
         'gambar' => antiSqlInjection($_POST['gambar'])
     ];
@@ -55,13 +58,20 @@ if ($act == 'save') {
 if ($act == 'update') {
     $id = (isset($_GET['id']) && ctype_digit($_GET['id'])) ? $_GET['id'] : 0;
     $data = [
-        'kategori_id' => antiSqlInjection($_POST['kategori_id']),
+        'kategori_id' => (!empty($_POST['kategori_id'])) ? (int)antiSqlInjection($_POST['kategori_id']) : null,
         'buku_kode' => antiSqlInjection($_POST['buku_kode']),
         'buku_nama' => antiSqlInjection($_POST['buku_nama']),
-        'jumlah' => antiSqlInjection($_POST['jumlah']),
+        'jumlah' => (!empty($_POST['jumlah'])) ? (int)antiSqlInjection($_POST['jumlah']) : 0,
         'deskripsi' => antiSqlInjection($_POST['deskripsi']),
         'gambar' => antiSqlInjection($_POST['gambar'])
     ];
+    if (is_null($data['kategori_id'])) {
+        echo json_encode([
+            'status' => false,
+            'message' => 'Harus diisi.'
+        ]);
+        exit;
+    }
     $buku = new BukuModel();
     $buku->updateData($id, $data);
     echo json_encode([

@@ -13,10 +13,10 @@ class BukuModel extends Model
     public function insertData($data)
     {
         // prepare statement untuk query insert
-        $query = $this->db->prepare("insert into {$this->table} (kategori_id, buku_kode,
-                buku_nama, jumlah, deskripsi, gambar) values(?, ?, ?, ?, ?, ?)");
+        $query = $this->db->prepare("INSERT INTO {$this->table} (buku_kode, buku_nama, kategori_id, jumlah, deskripsi, gambar) 
+                VALUES (?, ?, ?, ?, ?, ?)");
         // binding parameter ke query, "s" berarti string, "ss" berarti dua string
-        $query->bind_param('ssssss', $data['kategori_id'], $data['buku_kode'], $data['buku_nama'], $data['jumlah'], $data['deskripsi'], $data['gambar']);
+        $query->bind_param('ssisss', $data['buku_kode'], $data['buku_nama'], $data['kategori_id'], $data['jumlah'], $data['deskripsi'], $data['gambar']);
         // eksekusi query untuk menyimpan ke database
         $query->execute();
     }
@@ -40,19 +40,10 @@ class BukuModel extends Model
     {
         // query untuk update data
         $query = $this->db->prepare("UPDATE {$this->table} 
-        SET kategori_id = ?, buku_kode = ?, buku_nama = ?, jumlah = ?, deskripsi = ?, gambar = ? 
-        WHERE buku_id = ?");
+            SET buku_kode = ?, buku_nama = ?, kategori_id = ?, jumlah = ?, deskripsi = ?, gambar = ? 
+            WHERE buku_id = ?");
         // binding parameter ke query
-        $query->bind_param(
-            'ssssssi', 
-            $data['kategori_id'], 
-            $data['buku_kode'], 
-            $data['buku_nama'], 
-            $data['jumlah'], 
-            $data['deskripsi'], 
-            $data['gambar'], 
-            $id
-        );
+        $query->bind_param('ssiissi', $data['buku_kode'], $data['buku_nama'], $data['kategori_id'], $data['jumlah'], $data['deskripsi'], $data['gambar'], $id);
         // eksekusi query
         $query->execute();
     }

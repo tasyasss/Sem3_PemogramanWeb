@@ -1,3 +1,8 @@
+<?php
+require_once __DIR__ . '/../lib/Connection.php';
+$kategori = getKategori();
+?>
+
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
@@ -61,8 +66,17 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label>Kategori Buku</label>
-                        <input type="text" class="form-control" name="kategori_id"
-                            id="kategori_id">
+                        <select id="kategori_id" name="kategori_id" class="form-control">
+                            <?php if (!empty($kategori)): ?>
+                                <?php foreach ($kategori as $id): ?>
+                                    <option value="<?= htmlspecialchars($id['kategori_id']); ?>">
+                                        <?= htmlspecialchars($id['kategori_nama']); ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <option value="">-</option>
+                            <?php endif; ?>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label>Kode Buku</label>
@@ -99,6 +113,34 @@
     </form>
 </div>
 <script>
+    // function loadKategori() {
+    //     $.ajax({
+    //         url: 'action/BukuAction.php?act=get_kategori',
+    //         method: 'GET',
+    //         success: function(response) {
+    //             console.log("Data kategori:", response); 
+    //             var data = response; // Response otomatis di-parse oleh jQuery jika JSON
+    //             var kategoriSelect = $('#kategori_id');
+
+    //             kategoriSelect.empty();
+    //             kategoriSelect.append('<option value="">Pilih Kategori</option>');
+
+    //             data.forEach(function(kategori) {
+    //                 kategoriSelect.append('<option value="' + kategori.id + '">' + kategori.nama + '</option>');
+    //             });
+    //         },
+    //         error: function(xhr, status, error) {
+    //             console.error("Error loadKategori:", status, error); // Debugging 
+    //         }
+    //     });
+    // }
+
+    // // Panggil loadKategori saat halaman siap atau modal ditampilkan
+    // $(document).ready(function() {
+    //     loadKategori();
+    // });
+
+
     function tambahData() {
         $('#form-data').modal('show');
         $('#form-tambah').attr('action', 'action/BukuAction.php?act=save');
@@ -119,7 +161,7 @@
                 $('#form-data').modal('show');
                 $('#form-tambah').attr('action',
                     'action/BukuAction.php?act=update&id=' + id);
-                $('#kategori_id').val(data.kategori_id);
+                $('#kategori_id').val(data.kategori_id).trigger('change');
                 $('#buku_kode').val(data.buku_kode);
                 $('#buku_nama').val(data.buku_nama);
                 $('#jumlah').val(data.jumlah);
