@@ -1,18 +1,21 @@
 <?php
 include('../lib/Session.php');
 $session = new Session();
+
 if ($session->get('is_login') !== true) {
     header('Location: login.php');
 }
+
 include_once('../model/BukuModel.php');
 include_once('../lib/Secure.php');
 $act = isset($_GET['act']) ? strtolower($_GET['act']) : '';
+
 if ($act == 'load') {
     $buku = new BukuModel();
     $data = $buku->getData();
     $result = [];
     $i = 1;
-    while ($row = $data->fetch_assoc()) {
+    foreach ($data as $row) {
         $result['data'][] = [
             $i,
             $row['kategori_id'],
@@ -30,6 +33,7 @@ onclick="deleteData(' . $row['buku_id'] . ')"><i class="fa fa-trash"></i></butto
     }
     echo json_encode($result);
 }
+
 if ($act == 'get') {
     $id = (isset($_GET['id']) && ctype_digit($_GET['id'])) ? $_GET['id'] : 0;
     $buku = new BukuModel();
@@ -39,6 +43,7 @@ if ($act == 'get') {
     }
     echo json_encode($data);
 }
+
 if ($act == 'save') {
     $data = [
         'kategori_id' => (int)antiSqlInjection($_POST['kategori_id']),
@@ -55,6 +60,7 @@ if ($act == 'save') {
         'message' => 'Data berhasil disimpan.'
     ]);
 }
+
 if ($act == 'update') {
     $id = (isset($_GET['id']) && ctype_digit($_GET['id'])) ? $_GET['id'] : 0;
     $data = [
@@ -62,7 +68,7 @@ if ($act == 'update') {
         'buku_kode' => antiSqlInjection($_POST['buku_kode']),
         'buku_nama' => antiSqlInjection($_POST['buku_nama']),
         'jumlah' => (!empty($_POST['jumlah'])) ? (int)antiSqlInjection($_POST['jumlah']) : 0,
-        'deskripsi' => antiSqlInjection($_POST['deskripsi']),
+        'deskripsi' => (!empty($_POST['deskripsi'])) ? antiSqlInjection($_POST['deskripsi']) : 'Tidak ada deskripsi',
         'gambar' => antiSqlInjection($_POST['gambar'])
     ];
     if (is_null($data['kategori_id'])) {
@@ -79,6 +85,7 @@ if ($act == 'update') {
         'message' => 'Data berhasil diupdate.'
     ]);
 }
+
 if ($act == 'delete') {
     $id = (isset($_GET['id']) && ctype_digit($_GET['id'])) ? $_GET['id'] : 0;
     $buku = new BukuModel();

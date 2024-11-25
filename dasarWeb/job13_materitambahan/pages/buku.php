@@ -1,5 +1,20 @@
 <?php
 require_once __DIR__ . '/../lib/Connection.php';
+function getKategori()
+{
+    global $db;
+    $query = "SELECT * FROM m_kategori ORDER BY kategori_nama ASC";
+    $result = sqlsrv_query($db, $query);
+    $kategori = [];
+    if ($result) {
+        while ($row = sqlsrv_fetch_array($result, SQLSRV_FETCH_ASSOC)) {
+            $kategori[] = $row;
+        }
+    } else {
+        die(print_r(sqlsrv_errors(), true));
+    }
+    return $kategori;
+}
 $kategori = getKategori();
 ?>
 
