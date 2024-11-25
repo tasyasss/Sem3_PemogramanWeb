@@ -12,7 +12,7 @@ if ($act == 'load') {
     $data = $kategori->getData();
     $result = [];
     $i = 1;
-    while ($row = $data->fetch_assoc()) {
+    foreach ($data as $row) {
         $result['data'][] = [
             $i,
             $row['kategori_kode'],

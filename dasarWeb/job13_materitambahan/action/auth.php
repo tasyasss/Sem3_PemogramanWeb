@@ -9,15 +9,12 @@ if ($act == 'login') {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    // mencari user berdasarkan username
-    $query = $db->prepare('SELECT * FROM m_user WHERE username = ?');
-    $query->bind_param('s', $username);
-    $query->execute();
+    include('../model/UserModel.php');
+    // digunakan untuk query user
+    $user = new UserModel();
+    $data = $user->getSingleDataByKeyword('username', $username);
 
-    // ambil data hasil query diatas
-    $data = $query->get_result()->fetch_assoc();
-
-    // cek password sesuai
+    // jika password sesuai
     if (password_verify($password, $data['password'])) {
         $session->set('is_login', true);
         $session->set('username', $data['username']);
